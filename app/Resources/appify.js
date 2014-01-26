@@ -29,5 +29,5 @@ TiShadow.connect({
 });
 
 //Launch the app
-TiShadow.launchApp(path_name);
+TiShadow.startApp(path_name);
 

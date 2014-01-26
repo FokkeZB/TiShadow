@@ -121,11 +121,24 @@ exports.closeApp = function(name) {
 };
 exports.launchApp = function(name) {
   try {
-    Ti.App.fireEvent("tishadow:refresh");
+    //exports.disconnect();
+    Ti.App._restart();
+  } catch (e) {
+    try {
+      Ti.App.fireEvent("tishadow:refresh");
+      var p = require('/api/PlatformRequire');
+      exports.closeApp();
+      p.clearCache();
+      require("/api/Localisation").clear();
+      exports.launchApp();
+    } catch(e) {
+      log.error(utils.extractExceptionData(e));
+    }
+  }
+};
+exports.startApp = function(name) {
+  try {
     var p = require('/api/PlatformRequire');
-    exports.closeApp();
-    p.clearCache();
-    require("/api/Localisation").clear();
     // Custom Fonts
     if (osname === "ipad" || osname === "iphone") {
       require("/api/Fonts").loadCustomFonts(name);
